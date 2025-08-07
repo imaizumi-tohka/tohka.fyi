@@ -139,7 +139,7 @@ const config: SiteConfig = {
     category: 'Announcements',
     categoryId: 'DIC_kwDOPZkfd84Ct5gn',
     reactionsEnabled: true, // Enable reactions on post itself
-  // },
+   },
 }
 
 export default config
