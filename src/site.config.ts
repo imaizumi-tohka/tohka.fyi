@@ -123,7 +123,7 @@ const config: SiteConfig = {
   socialLinks: {
     twitter: 'https://x.com/Hiromtoon',
     bluesky: 'https://bsky.app/profile/yhirom.bsky.social',
-    mastodon: 'https://mastodon.social/@mokipoint',
+//
     github: 'https://github.com/imaizumi-tohka',
     email: 'info@hirom.dev',
         rss: true, // Set to true to include an RSS feed link in the footer
