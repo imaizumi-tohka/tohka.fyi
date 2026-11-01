@@ -9,7 +9,7 @@ const config: SiteConfig = {
   description:
     'tohka.fyi',
   // The author of the site, used in the footer, SEO, and RSS feed.
-  author: 'Imaizumi Tohka',
+  author: '今泉冬花',
   // Keywords for SEO, used in the meta tags.
   tags: ['Astro', 'NIKON_Z5II', 'ポートレート撮影', 'スナップ撮影'],
   // Path to the image used for generating social media previews.
@@ -125,7 +125,7 @@ const config: SiteConfig = {
     bluesky: 'https://bsky.app/profile/yhirom.bsky.social',
 //
     github: 'https://github.com/imaizumi-tohka',
-    email: 'info@hirom.dev',
+    email: 'info@tohka.fyi',
         rss: true, // Set to true to include an RSS feed link in the footer
   },
   // Configuration for Giscus comments.
@@ -134,7 +134,7 @@ const config: SiteConfig = {
   // Take the values from the generated script tag at https://giscus.app and fill them in here.
   // If you don't want to use Giscus, set this to undefined.
   giscus: {
-    repo: 'imaizumi-tohka/hirom.net-dev',
+    repo: 'imaizumi-tohka/tohka.fyi',
     repoId: 'R_kgDOPZkfdw',
     category: 'giscus',
     categoryId: 'DIC_kwDOPZkfd84Ct5j1',
