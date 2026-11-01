@@ -2,12 +2,12 @@ import type { SiteConfig } from '@types'
 
 const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
-  site: 'https://hirom.net',
+  site: 'https://tohka.fyi',
   // The name of your site, used in the title and for SEO.
-  title: 'hirom.net',
+  title: 'tohka.fyi',
   // The description of your site, used for SEO and RSS feed.
   description:
-    'hirom.net',
+    'tohka.fyi',
   // The author of the site, used in the footer, SEO, and RSS feed.
   author: 'Imaizumi Tohka',
   // Keywords for SEO, used in the meta tags.
