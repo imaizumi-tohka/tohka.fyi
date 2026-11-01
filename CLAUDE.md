@@ -9,5 +9,9 @@
 - Obsidian の vault としても使う（`.obsidian/plugins/obsidian-git` が5分毎コミット・30分毎 push）
 - git author は `Imaizumi Tohka <imaizumi.tohka+github.com@gmail.com>` 固定（GitHub の主メールと一致させる）
 
+## 作業ルール
+- **git の書き込み操作はしない**（commit / push / add / rm）。index は obsidian-git に任せ、削除は `rm`、移動は `mv` を使う
+- **vault 内に Obsidian から見えないもの（ドットファイル・ドットディレクトリ）を置かない**。一時ファイルは `$TMPDIR` か vault 外へ。外部ツールの生成物（例: `.yomiyasu/`）は作業後に削除する
+
 ## 旧プロジェクトとの関係
 `~/Projects/hirom.net/` は Netlify 未接続の旧リポジトリ。本番には反映されない。
