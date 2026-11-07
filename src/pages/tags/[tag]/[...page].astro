@@ -16,17 +16,26 @@ export const getStaticPaths = (async ({ paginate }) => {
     const postsWithTag = sortedPosts.filter((post) => {
       return new Set(post.data.tags).has(tag)
     })
-    return paginate(postsWithTag, { params: { tag }, pageSize: siteConfig.pageSize })
+    return paginate(postsWithTag, {
+      // Netlify が ASCII のパスを小文字に正規化するのに合わせて、生成側も小文字にする
+      params: { tag: tag.toLowerCase() },
+      pageSize: siteConfig.pageSize,
+    })
   })
   return pages
 }) satisfies GetStaticPaths
 
 const { page } = Astro.props
 const { tag } = Astro.params
+// 表示用は元の表記（NAS / NIKON_Z5II など）に戻す
+const displayTag =
+  (await getSortedPosts())
+    .flatMap((post) => post.data.tags)
+    .find((t) => t.toLowerCase() === tag) ?? tag
 ---
 
 <Layout>
-  <BlockHeader>#{tag}</BlockHeader>
+  <BlockHeader>#{displayTag}</BlockHeader>
   <PostPreviewsWithYear posts={page.data} />
   <Pagination
     prevLink={page.url.prev ? encodeURI(page.url.prev) : undefined}

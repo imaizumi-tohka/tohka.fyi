@@ -2,6 +2,7 @@ import rss from '@astrojs/rss'
 import siteConfig from '../site.config'
 import type { AstroGlobal } from 'astro'
 import { getCollection } from 'astro:content'
+import { postPath } from '../utils'
 import sanitizeHtml from 'sanitize-html'
 import MarkdownIt from 'markdown-it'
 const parser = new MarkdownIt()
@@ -25,11 +26,11 @@ export async function GET(_context: AstroGlobal) {
       pubDate: post.data.published,
       description: post.data.description,
       author: post.data.author || siteConfig.author,
-      link: `/posts/${post.id}`,
+      link: postPath(post.id),
       content: sanitizeHtml(parser.render(post.body || ''), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
       }),
     })),
-    trailingSlash: false,
+    trailingSlash: true,
   })
 }

@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content'
+import { tagPath } from '@utils'
 
 interface Props {
   posts: CollectionEntry<'posts'>[]
@@ -31,7 +32,7 @@ const tagsWithCount = Object.entries(tagCounts)
     tagsWithCount.map(({ tag, count }) => (
       <li>
         <a
-          href={`/tags/${encodeURIComponent(tag)}`}
+          href={tagPath(tag)}
           class="flex gap-2.5 py-2 pl-4 pr-3 bg-accent/7 rounded-3xl"
         >
           {tag}

@@ -10,6 +10,21 @@ export function dateString(date: Date) {
   return date.toISOString().split('T')[0]
 }
 
+// Netlify は URL パス中の ASCII を小文字に正規化する（/tags/NAS → /tags/nas）ため、
+// タグページの生成・リンクは小文字スラッグに揃える。
+export function tagSlug(tag: string) {
+  return encodeURIComponent(tag.toLowerCase())
+}
+
+export function tagPath(tag: string) {
+  return `/tags/${tagSlug(tag)}/`
+}
+
+// macOS はファイル名を NFD で返すため、記事 ID を NFC に揃えてルートと一致させる。
+export function postPath(id: string) {
+  return `/posts/${id.normalize('NFC')}/`
+}
+
 export function pick(obj: Record<string, any>, keys: string[]) {
   return Object.fromEntries(
     keys.filter((key) => key in obj).map((key) => [key, obj[key]]),

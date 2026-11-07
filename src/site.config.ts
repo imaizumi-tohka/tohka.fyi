@@ -7,7 +7,7 @@ const config: SiteConfig = {
   title: 'tohka.fyi',
   // The description of your site, used for SEO and RSS feed.
   description:
-    'tohka.fyi',
+    '今泉冬花の個人ブログ。写真（NIKON Z5II / iPhone）、建築や展示の記録、NAS・Astro などの技術メモを書いています。',
   // The author of the site, used in the footer, SEO, and RSS feed.
   author: '今泉冬花',
   // Keywords for SEO, used in the meta tags.
@@ -29,11 +29,11 @@ const config: SiteConfig = {
     // },
     {
       name: 'About',
-      url: '/about',
+      url: '/about/',
     },
     {
       name: 'Archive',
-      url: '/posts',
+      url: '/posts/',
     },
     // {
     //   name: 'GitHub',
@@ -123,7 +123,7 @@ const config: SiteConfig = {
   socialLinks: {
     twitter: 'https://x.com/Hiromtoon',
     bluesky: 'https://bsky.app/profile/yhirom.bsky.social',
-//
+    //
     github: 'https://github.com/imaizumi-tohka',
     email: 'info@tohka.fyi',
         rss: true, // Set to true to include an RSS feed link in the footer
@@ -139,7 +139,7 @@ const config: SiteConfig = {
     category: 'giscus',
     categoryId: 'DIC_kwDOPZkfd84Ct5j1',
     reactionsEnabled: true, // Enable reactions on post itself
-   },
+  },
 }
 
 export default config

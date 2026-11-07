@@ -16,16 +16,16 @@ interface Props {
 }
 
 const { title, description, tags, author } = Astro.props
-const pageUrl = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '') // Remove trailing slash for consistency
+// Netlify はディレクトリ index を末尾スラッシュ付きで配信するため、canonical もそれに揃える
+const pagePathname = Astro.url.pathname.replace(/\/+$/, '') || '/'
+const pageUrl = new URL(pagePathname === '/' ? '/' : `${pagePathname}/`, Astro.site).href
 const pageType = Astro.url.pathname.startsWith('/posts') ? 'article' : 'website'
 const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title
 const pageDescription = description || siteConfig.description
 const pageAuthor = author || siteConfig.author
 const pageImage =
   pageType === 'article'
-    ? Astro.url.origin +
-      Astro.url.pathname.replace(/\/posts\//, '/social-cards/') +
-      '.png'
+    ? `${Astro.url.origin}${pagePathname.replace(/^\/posts\//, '/social-cards/')}.png`
     : `${Astro.url.origin}/social-cards/__default.png`
 const pageKeywords = [
   ...new Set(siteConfig.tags.concat(tags || []).map((word) => word.toLowerCase())),
@@ -107,7 +107,7 @@ let generatedCss: string = cssLines.join('\n')
 
 <!doctype html>
 <html
-  lang="en"
+  lang="ja"
   data-theme={defaultTheme}
   data-dark-theme={darkTheme}
   data-light-theme={lightTheme}
@@ -125,6 +125,8 @@ let generatedCss: string = cssLines.join('\n')
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:type" content={pageType} />
+    <meta property="og:site_name" content={siteConfig.title} />
+    <meta property="og:locale" content="ja_JP" />
     {pageImage && <meta property="og:image" content={pageImage} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
@@ -148,11 +150,13 @@ let generatedCss: string = cssLines.join('\n')
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6XX9EXPT0X"></script>
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-6XX9EXPT0X');
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      gtag('config', 'G-6XX9EXPT0X')
     </script>
   </head>
   <body class="w-full h-full m-0 bg-background text-foreground">
