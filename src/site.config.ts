@@ -35,11 +35,6 @@ const config: SiteConfig = {
       name: 'Archive',
       url: '/posts/',
     },
-    // {
-    //   name: 'GitHub',
-    //   url: 'https://github.com/imaizumi-tohka/hirom.net',
-    //   external: true,
-    // },
   ],
   // The theming configuration for the site.
   themes: {
