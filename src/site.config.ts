@@ -121,12 +121,11 @@ const config: SiteConfig = {
   },
   // Social links to display in the footer.
   socialLinks: {
-    twitter: 'https://x.com/Hiromtoon',
-    bluesky: 'https://bsky.app/profile/yhirom.bsky.social',
-    //
+    twitter: 'https://x.com/imaizumi_tohka',
+    bluesky: 'https://bsky.app/profile/i-tohka.bsky.social',
     github: 'https://github.com/imaizumi-tohka',
     email: 'info@tohka.fyi',
-        rss: true, // Set to true to include an RSS feed link in the footer
+    rss: true, // Set to true to include an RSS feed link in the footer
   },
   // Configuration for Giscus comments.
   // To set up Giscus, follow the instructions at https://giscus.app/
