@@ -27,7 +27,9 @@ export const getStaticPaths = (async () => {
 
 const { post, prev, next } = Astro.props
 const postData = post.data
-const { headings, Content: PostContent } = await render(post)
+const { headings, Content: PostContent, remarkPluginFrontmatter } = await render(post)
+// frontmatter に description が無い記事は、remarkDescription が抜いた初段落を使う
+const postDescription = postData.description || remarkPluginFrontmatter.description
 const addendum = await getCollection('addendum')
 let AddendumContent
 let addendumAvatarImage
@@ -41,9 +43,10 @@ if (addendum.length > 0) {
 
 <Layout
   title={postData.title}
-  description={postData.description}
+  description={postDescription}
   author={postData.author}
   tags={postData.tags}
+  published={postData.published}
 >
   <article class="max-w-full py-7.5" data-pagefind-body>
     {

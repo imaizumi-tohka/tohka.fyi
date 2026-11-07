@@ -29,6 +29,10 @@ import rehypePixelated from './src/plugins/rehype-pixelated' /* Custom plugin to
 export default defineConfig({
   site: siteConfig.site,
   trailingSlash: 'always',
+  // 記事内の画像に自動で srcset を生成し、画面幅に応じたサイズを配信する
+  image: {
+    layout: 'constrained',
+  },
   prefetch: true,
   markdown: {
     remarkPlugins: [

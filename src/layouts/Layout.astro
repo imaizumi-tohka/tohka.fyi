@@ -13,9 +13,10 @@ interface Props {
   description?: string
   tags?: string[]
   author?: string
+  published?: Date
 }
 
-const { title, description, tags, author } = Astro.props
+const { title, description, tags, author, published } = Astro.props
 // Netlify はディレクトリ index を末尾スラッシュ付きで配信するため、canonical もそれに揃える
 const pagePathname = Astro.url.pathname.replace(/\/+$/, '') || '/'
 const pageUrl = new URL(pagePathname === '/' ? '/' : `${pagePathname}/`, Astro.site).href
@@ -30,6 +31,58 @@ const pageImage =
 const pageKeywords = [
   ...new Set(siteConfig.tags.concat(tags || []).map((word) => word.toLowerCase())),
 ].join(', ')
+
+// 構造化データ（schema.org）。記事ページは BlogPosting、それ以外は WebSite。
+const siteUrl = new URL('/', Astro.site).href
+const personNode = {
+  '@type': 'Person',
+  name: pageAuthor,
+  url: new URL('/about/', Astro.site).href,
+  sameAs: Object.values(siteConfig.socialLinks).filter(
+    (value): value is string => typeof value === 'string' && value.startsWith('http'),
+  ),
+}
+// Google の Article リッチリザルトは publisher を Organization + logo で求める
+const publisherNode = {
+  '@type': 'Organization',
+  name: siteConfig.title,
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: new URL('/apple-touch-icon.png', Astro.site).href,
+    width: 128,
+    height: 128,
+  },
+}
+const jsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.title,
+    url: siteUrl,
+    description: siteConfig.description,
+    inLanguage: 'ja',
+    author: personNode,
+  },
+]
+if (pageType === 'article' && published instanceof Date) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description: pageDescription,
+    image: [pageImage],
+    datePublished: published.toISOString(),
+    dateModified: published.toISOString(),
+    inLanguage: 'ja',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    author: personNode,
+    publisher: publisherNode,
+    ...(tags && tags.length > 0 ? { keywords: tags.join(', ') } : {}),
+  })
+}
+// </script> でタグを閉じられんようにする
+const jsonLdString = JSON.stringify(jsonLd).replace(/</g, '\\u003c')
 const baseCssVars: { [key: string]: string } = {
   'theme-font': siteConfig.font,
   'ec-frm-frameBoxShdCssVal': 'none',
@@ -143,6 +196,7 @@ let generatedCss: string = cssLines.join('\n')
       href={new URL('rss.xml', Astro.site)}
     />
     <title>{pageTitle}</title>
+    <script type="application/ld+json" set:html={jsonLdString} />
     <style is:global define:vars={baseCssVars}></style>
     <style is:inline set:html={generatedCss}></style>
     {themeMode === 'light-dark-auto' && <LightDarkAutoThemeLoader />}
