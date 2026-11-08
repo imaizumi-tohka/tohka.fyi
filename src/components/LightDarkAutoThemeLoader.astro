@@ -4,45 +4,46 @@
 
 <script is:inline>
   ;(function loadTheme() {
-    const pageDefaultTheme = document.documentElement.getAttribute('data-theme')
-    const pageDarkTheme = document.documentElement.getAttribute('data-dark-theme')
-    const pageLightTheme = document.documentElement.getAttribute('data-light-theme')
-    const pageThemeHash = document.documentElement.getAttribute('data-theme-hash')
-    if (!pageDefaultTheme || !pageDarkTheme || !pageLightTheme || !pageThemeHash) {
+    const root = document.documentElement
+    const lightTheme = root.getAttribute('data-light-theme')
+    const eveningTheme = root.getAttribute('data-evening-theme')
+    const darkTheme = root.getAttribute('data-dark-theme')
+    const themeHash = root.getAttribute('data-theme-hash')
+    const defaultTheme = root.getAttribute('data-theme') || 'auto'
+    if (!lightTheme || !darkTheme || !themeHash) {
       throw new Error('Theme attributes are required.')
     }
-    const getStoredTheme = () => localStorage.getItem('data-theme')
-    let storedTheme = getStoredTheme()
-    const storedThemeHash = localStorage.getItem('data-theme-hash')
-    const themeHashMatches = storedThemeHash === pageThemeHash
 
-    if (!storedTheme || !storedThemeHash || !themeHashMatches) {
-      // Should be the first time loading the website
-      localStorage.setItem('data-theme', pageDefaultTheme)
-      localStorage.setItem('data-theme-hash', pageThemeHash)
+    const storedHash = localStorage.getItem('data-theme-hash')
+    if (!localStorage.getItem('data-theme') || storedHash !== themeHash) {
+      // 初回、またはテーマ構成が変わったときは既定値に戻す
+      localStorage.setItem('data-theme', defaultTheme)
+      localStorage.setItem('data-theme-hash', themeHash)
     }
 
-    if (
-      themeHashMatches &&
-      storedTheme &&
-      storedTheme !== 'auto' &&
-      storedTheme !== pageDefaultTheme
-    ) {
-      // The stored theme is different from the default theme, apply it
-      document.documentElement.setAttribute('data-theme', storedTheme)
-    } else if (pageDefaultTheme === 'auto' || storedTheme === 'auto') {
-      // If the default or stored theme is 'auto', apply the system preference
-      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)')
-      document.documentElement.setAttribute(
-        'data-theme',
-        prefersDarkScheme.matches ? pageDarkTheme : pageLightTheme,
-      )
-      prefersDarkScheme.addEventListener('change', (e) => {
-        if (getStoredTheme() === 'auto') {
-          const newTheme = e.matches ? pageDarkTheme : pageLightTheme
-          document.documentElement.setAttribute('data-theme', newTheme)
-        }
-      })
+    // 自動モード: OS の外観設定を最優先する。
+    // - OS がダーク → 夜
+    // - OS がライト → 16〜19時だけ夕方、それ以外は日中
+    const resolveAuto = () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return darkTheme
+      }
+      if (!eveningTheme) return lightTheme
+      const hour = new Date().getHours()
+      return hour >= 16 && hour < 19 ? eveningTheme : lightTheme
     }
+
+    const applyTheme = () => {
+      const stored = localStorage.getItem('data-theme') || 'auto'
+      root.setAttribute('data-theme', stored === 'auto' ? resolveAuto() : stored)
+    }
+
+    applyTheme()
+    window.__applyTheme = applyTheme
+    // 時刻の境界と OS 設定の変化を取りこぼさないよう1分ごとに見直す
+    setInterval(applyTheme, 60 * 1000)
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', applyTheme)
   })()
 </script>

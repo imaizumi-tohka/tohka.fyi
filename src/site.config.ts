@@ -72,6 +72,24 @@ const config: SiteConfig = {
         // 指定色 #d3a48d は明るい背景で 2.1:1 しか出ないため、ライトだけ暗くしてある
         warm: '#9e6347',
       },
+      // 夕方（ライトとダークの中間。暖色のトワイライト）
+      'rose-pine': {
+        background: '#2b2320',
+        foreground: '#f2e8df',
+        accent: '#d08a5f',
+        a: '#e0a878',
+        hr: '#4a3b33',
+        h1: '#d08a5f',
+        h2: '#d08a5f',
+        h3: '#d08a5f',
+        h4: '#d08a5f',
+        h5: '#d08a5f',
+        h6: '#d08a5f',
+        li: '#f2e8df',
+        italic: '#b8a394',
+        muted: '#b8a394',
+        warm: '#e0a878',
+      },
       'rose-pine-moon': {
         background: '#12202a',
         foreground: '#e9f1f5',
@@ -138,7 +156,9 @@ const config: SiteConfig = {
       // 'poimandres',
       // 'red',
       // 'rose-pine',
+      // [0]=日中(ライト) [1]=夕方 [2]=夜(ダーク) の順で意味づけしている
       'rose-pine-dawn',
+      'rose-pine',
       'rose-pine-moon',
       // 'slack-dark',
       // 'slack-ochin',

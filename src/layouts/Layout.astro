@@ -114,8 +114,15 @@ if (
   )
   defaultTheme = siteConfig.themes.include[0]
 }
+// [0]=日中 / [1]=夕方 / [2]=夜。2テーマ構成なら従来どおり [0]=ライト [1]=ダーク。
+const hasEveningTheme = includedThemes.length >= 3
 let lightTheme = themeMode === 'light-dark-auto' ? includedThemes[0] : undefined
-let darkTheme = themeMode === 'light-dark-auto' ? includedThemes[1] : undefined
+let eveningTheme =
+  themeMode === 'light-dark-auto' && hasEveningTheme ? includedThemes[1] : undefined
+let darkTheme =
+  themeMode === 'light-dark-auto'
+    ? includedThemes[hasEveningTheme ? 2 : 1]
+    : undefined
 
 // Generate a hash to use for cache busting the theme settings in localStorage.
 const themeHash = crypto
@@ -169,6 +176,7 @@ let generatedCss: string = cssLines.join('\n')
   data-theme={defaultTheme}
   data-dark-theme={darkTheme}
   data-light-theme={lightTheme}
+  data-evening-theme={eveningTheme}
   data-theme-mode={themeMode}
   data-theme-hash={themeHash}
 >
