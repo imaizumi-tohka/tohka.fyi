@@ -124,7 +124,10 @@ const themeHash = crypto
   .digest('hex')
   .slice(0, 8) // Truncate to the first 8 characters
 
-const resolvedThemes = await resolveThemeColorStyles(siteConfig.themes.include)
+const resolvedThemes = await resolveThemeColorStyles(
+  siteConfig.themes.include,
+  siteConfig.themes.overrides,
+)
 
 let cssLines: string[] = []
 for (const [themeId, themeStyles] of Object.entries(resolvedThemes)) {
@@ -142,6 +145,8 @@ for (const [themeId, themeStyles] of Object.entries(resolvedThemes)) {
     'italic',
     'a',
     'hr',
+    'muted',
+    'warm',
     'blue',
     'green',
     'red',

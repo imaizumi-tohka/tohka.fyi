@@ -66,6 +66,8 @@ const themeKeys = [
   'hr',
   'italic',
   'a',
+  'muted',
+  'warm',
   'blue',
   'green',
   'red',
@@ -111,10 +113,16 @@ export type ColorStyles = {
 // }
 export type ThemesWithColorStyles = Partial<Record<BundledShikiTheme, ColorStyles>>
 
+// パレット差し替え用。指定しなかったキーは Shiki テーマの値が使われる。
+export type ThemeColorOverrides = Partial<
+  Record<BundledShikiTheme, Partial<ColorStyles>>
+>
+
 export interface ThemesConfig {
   default: BundledShikiTheme | 'auto'
   mode: 'single' | 'light-dark-auto' | 'select'
   include: BundledShikiTheme[]
+  overrides?: ThemeColorOverrides
 }
 
 export type SocialLinks = {

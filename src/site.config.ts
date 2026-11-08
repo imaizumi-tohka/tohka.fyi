@@ -51,6 +51,45 @@ const config: SiteConfig = {
     //   'github-light',
     //   'github-dark',
     // ]
+    // サイトの配色。Shiki テーマの色をトークン単位で差し替える。
+    // 未指定のキー（blue/green/red 等）は Shiki テーマの値がそのまま使われる。
+    overrides: {
+      'rose-pine-dawn': {
+        background: '#f7fafc',
+        foreground: '#1f2a30',
+        accent: '#468fb4',
+        a: '#2e6e8e',
+        hr: '#d7e7ef',
+        h1: '#468fb4',
+        h2: '#468fb4',
+        h3: '#468fb4',
+        h4: '#468fb4',
+        h5: '#468fb4',
+        h6: '#468fb4',
+        li: '#1f2a30',
+        italic: '#5e7480',
+        muted: '#5e7480',
+        // 指定色 #d3a48d は明るい背景で 2.1:1 しか出ないため、ライトだけ暗くしてある
+        warm: '#9e6347',
+      },
+      'rose-pine-moon': {
+        background: '#12202a',
+        foreground: '#e9f1f5',
+        accent: '#8dbcd3',
+        a: '#8dbcd3',
+        hr: '#2a4050',
+        h1: '#8dbcd3',
+        h2: '#8dbcd3',
+        h3: '#8dbcd3',
+        h4: '#8dbcd3',
+        h5: '#8dbcd3',
+        h6: '#8dbcd3',
+        li: '#e9f1f5',
+        italic: '#9fb4c0',
+        muted: '#9fb4c0',
+        warm: '#d3a48d',
+      },
+    },
     include: [
       // 'andromeeda',
       // 'aurora-x',

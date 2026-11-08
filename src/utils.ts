@@ -1,4 +1,9 @@
-import type { TextmateStyles, ThemesWithColorStyles, ThemeKey } from '@types'
+import type {
+  TextmateStyles,
+  ThemeColorOverrides,
+  ThemesWithColorStyles,
+  ThemeKey,
+} from '@types'
 import {
   loadShikiTheme,
   type BundledShikiTheme,
@@ -116,6 +121,9 @@ const unresolvedStyles: TextmateStyles = {
   ],
   a: ['string.other.link.title.markdown', 'markup.link', 'editor.foreground'],
   hr: ['meta.separator.markdown', 'meta.separator', 'editor.foreground'],
+  // Shiki テーマに対応する語彙が無い独自トークン（site.config の overrides で指定する前提）
+  muted: ['editor.foreground'],
+  warm: ['editor.foreground'],
   blue: ['terminal.ansiBlue', 'terminal.ansiBrightBlue'],
   green: ['terminal.ansiGreen', 'terminal.ansiBrightGreen'],
   red: ['terminal.ansiRed', 'terminal.ansiBrightRed'],
@@ -158,7 +166,7 @@ const unresolvedStyles: TextmateStyles = {
 
 export async function resolveThemeColorStyles(
   themes: BundledShikiTheme[],
-  overrides?: ThemesWithColorStyles,
+  overrides?: ThemeColorOverrides,
 ): Promise<ThemesWithColorStyles> {
   const resolvedThemes = themes.map(async (theme) => {
     const loadedTheme = await loadShikiTheme(theme)
