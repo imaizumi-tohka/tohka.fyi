@@ -5,7 +5,10 @@ import sitemap from '@astrojs/sitemap'
 import mdx from '@astrojs/mdx'
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import expressiveCode from 'astro-expressive-code'
+import expressiveCode, { ExpressiveCodeTheme } from 'astro-expressive-code'
+import rosePineDawnJson from 'shiki/themes/rose-pine-dawn.mjs'
+import rosePineJson from 'shiki/themes/rose-pine.mjs'
+import rosePineMoonJson from 'shiki/themes/rose-pine-moon.mjs'
 import siteConfig from './src/site.config'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import icon from 'astro-icon'
@@ -78,7 +81,20 @@ export default defineConfig({
   integrations: [
     sitemap(),
     expressiveCode({
-      themes: siteConfig.themes.include,
+      // サイト独自のテーマ名でコードブロックを色替えするため、
+      // Shiki テーマの複製を palette の名前で渡す
+      themes: siteConfig.themes.include.map((name, index) => {
+        const base = {
+          'rose-pine-dawn': rosePineDawnJson,
+          'rose-pine': rosePineJson,
+          'rose-pine-moon': rosePineMoonJson,
+        }[name]
+        if (!base) return name
+        const theme = new ExpressiveCodeTheme(base)
+        const paletteName = siteConfig.themes.palette?.[index]?.name
+        if (paletteName) theme.name = paletteName
+        return theme
+      }),
       useDarkModeMediaQuery: false,
       defaultProps: {
         showLineNumbers: false,

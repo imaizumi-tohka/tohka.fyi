@@ -114,14 +114,20 @@ export type ColorStyles = {
 export type ThemesWithColorStyles = Partial<Record<BundledShikiTheme, ColorStyles>>
 
 // パレット差し替え用。指定しなかったキーは Shiki テーマの値が使われる。
-export type ThemeColorOverrides = Partial<
-  Record<BundledShikiTheme, Partial<ColorStyles>>
->
+export type ThemeColorOverrides = Partial<Record<BundledShikiTheme, Partial<ColorStyles>>>
+
+// サイト独自の配色。name が data-theme の値になる。
+export interface ThemePaletteEntry {
+  name: string
+  colors: Partial<ColorStyles>
+}
 
 export interface ThemesConfig {
   default: BundledShikiTheme | 'auto'
   mode: 'single' | 'light-dark-auto' | 'select'
   include: BundledShikiTheme[]
+  // include と同じ並び。[0]=日中 [1]=夕方 [2]=夜。未指定なら include の色をそのまま使う。
+  palette?: ThemePaletteEntry[]
   overrides?: ThemeColorOverrides
 }
 

@@ -102,8 +102,12 @@ if (themeMode === 'light-dark-auto' && siteConfig.themes.include.length < 2) {
   )
   themeMode = 'single'
 }
-let defaultTheme = siteConfig.themes.default || siteConfig.themes.include[0]
-let includedThemes = siteConfig.themes.include as string[]
+// palette があれば data-theme の値はそちらの名前を使う（無ければ Shiki 名）
+const paletteNames = siteConfig.themes.palette?.map((entry) => entry.name)
+let includedThemes = (
+  paletteNames?.length ? paletteNames : (siteConfig.themes.include as string[])
+) as string[]
+let defaultTheme = siteConfig.themes.default || includedThemes[0]
 const themeNotIncluded = includedThemes.includes(defaultTheme)
 if (
   (themeMode !== 'light-dark-auto' && themeNotIncluded) ||
@@ -120,9 +124,7 @@ let lightTheme = themeMode === 'light-dark-auto' ? includedThemes[0] : undefined
 let eveningTheme =
   themeMode === 'light-dark-auto' && hasEveningTheme ? includedThemes[1] : undefined
 let darkTheme =
-  themeMode === 'light-dark-auto'
-    ? includedThemes[hasEveningTheme ? 2 : 1]
-    : undefined
+  themeMode === 'light-dark-auto' ? includedThemes[hasEveningTheme ? 2 : 1] : undefined
 
 // Generate a hash to use for cache busting the theme settings in localStorage.
 const themeHash = crypto
@@ -136,8 +138,23 @@ const resolvedThemes = await resolveThemeColorStyles(
   siteConfig.themes.overrides,
 )
 
+// palette の色を Shiki テーマの解決結果に上書きして、独自名で CSS を出す
+const palette = siteConfig.themes.palette
+const themeSlots = palette?.length
+  ? palette.map((entry, index) => ({
+      themeId: entry.name,
+      themeStyles: {
+        ...(resolvedThemes[siteConfig.themes.include[index]] ?? {}),
+        ...entry.colors,
+      },
+    }))
+  : Object.entries(resolvedThemes).map(([themeId, themeStyles]) => ({
+      themeId,
+      themeStyles,
+    }))
+
 let cssLines: string[] = []
-for (const [themeId, themeStyles] of Object.entries(resolvedThemes)) {
+for (const { themeId, themeStyles } of themeSlots) {
   const relevantStyles = pick(themeStyles, [
     'foreground',
     'background',

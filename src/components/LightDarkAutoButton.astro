@@ -1,7 +1,10 @@
 ---
 import { Icon } from 'astro-icon/components'
 import siteConfig from '../site.config'
-const included = siteConfig.themes.include as string[]
+const paletteNames = siteConfig.themes.palette?.map((entry) => entry.name)
+const included = (
+  paletteNames?.length ? paletteNames : (siteConfig.themes.include as string[])
+) as string[]
 const hasEvening = included.length >= 3
 const lightTheme = included[0]
 const eveningTheme = hasEvening ? included[1] : undefined
@@ -17,7 +20,11 @@ const darkTheme = hasEvening ? included[2] : included[1]
   data-dark={darkTheme}
 >
   <Icon name="sun" id="icon-light" class="hidden size-6 text-[var(--theme-accent)]" />
-  <Icon name="sun-moon" id="icon-evening" class="hidden size-6 text-[var(--theme-accent)]" />
+  <Icon
+    name="sun-moon"
+    id="icon-evening"
+    class="hidden size-6 text-[var(--theme-accent)]"
+  />
   <Icon name="moon" id="icon-dark" class="hidden size-6 text-[var(--theme-accent)]" />
   <Icon name="clock" id="icon-auto" class="hidden size-6 text-[var(--theme-accent)]" />
 </button>
