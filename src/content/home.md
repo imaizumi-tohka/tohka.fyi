@@ -5,4 +5,4 @@ avatarImage:
 #githubCalendar: 'imaizumi-tohka'
 ---
 
-学んだことや写真を置く場所として
+日々、学んだことや写真など
