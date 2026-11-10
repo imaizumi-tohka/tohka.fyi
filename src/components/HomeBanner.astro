@@ -24,10 +24,25 @@ const { avatarImage, githubCalendar } = Astro.props
       )
     }
     <div>
-      <div class:list={['m-4 max-w-full prose']}>
+      <div class:list={['home-banner-copy m-4 max-w-full prose']}>
         <slot />
       </div>
     </div>
   </div>
   {githubCalendar && <GitHubActivityCalendar username={githubCalendar} />}
 </div>
+
+<style>
+  /* 見出しの `##` プレフィックスと余白はバナーでは邪魔なので消す */
+  .home-banner-copy :global(h2::before) {
+    content: none;
+  }
+
+  .home-banner-copy :global(h2) {
+    margin-block: 0 0.5rem;
+  }
+
+  .home-banner-copy :global(p) {
+    margin-block: 0;
+  }
+</style>

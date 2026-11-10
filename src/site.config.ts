@@ -4,7 +4,7 @@ const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
   site: 'https://tohka.fyi',
   // The name of your site, used in the title and for SEO.
-  title: '今泉冬花のブログ',
+  title: 'tohka.fyi',
   // The description of your site, used for SEO and RSS feed.
   description:
     '今泉冬花の個人ブログ。写真（NIKON Z5II / iPhone）、建築や展示の記録、NAS・Astro などの技術メモを書いています。',
