@@ -33,15 +33,7 @@ const { avatarImage, githubCalendar } = Astro.props
 </div>
 
 <style>
-  /* 見出しの `##` プレフィックスと余白はバナーでは邪魔なので消す */
-  .home-banner-copy :global(h2::before) {
-    content: none;
-  }
-
-  .home-banner-copy :global(h2) {
-    margin-block: 0 0.5rem;
-  }
-
+  /* バナー内は段落の上下マージンを詰めて、行として並べる */
   .home-banner-copy :global(p) {
     margin-block: 0;
   }
