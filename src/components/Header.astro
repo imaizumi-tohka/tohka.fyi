@@ -91,3 +91,33 @@ const selectTheme =
     if (event.key === 'Escape') toggleNavMobileMenu('off')
   })
 </script>
+
+<style>
+  /* トリガーの角から開く。reduced-motion では即時切替 */
+  #nav-mobile-list {
+    transform-origin: top right;
+    transition:
+      opacity 140ms ease-out,
+      transform 140ms ease-out,
+      visibility 0s linear 140ms;
+  }
+
+  #nav-mobile-list:not(.invisible) {
+    transition:
+      opacity 140ms ease-out,
+      transform 140ms ease-out,
+      visibility 0s;
+  }
+
+  #nav-mobile-list.invisible {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #nav-mobile-list,
+    #nav-mobile-list:not(.invisible) {
+      transition: none;
+    }
+  }
+</style>

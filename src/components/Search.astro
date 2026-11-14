@@ -79,6 +79,24 @@ import { Icon } from 'astro-icon/components'
     color: var(--theme-accent) !important;
     font-weight: 600 !important;
   }
+
+  /* 開くときだけ、上から静かに出す */
+  site-search dialog[open] {
+    animation: search-dialog-in 180ms ease-out both;
+  }
+
+  @keyframes search-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    site-search dialog[open] {
+      animation: none;
+    }
+  }
 </style>
 
 <script>

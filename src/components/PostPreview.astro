@@ -15,9 +15,9 @@ const { minutesRead } = remarkPluginFrontmatter
 const description = remarkPluginFrontmatter.description || post.data.description
 ---
 
-<article class="w-full py-5 my-1 md:my-4 border-accent/10">
-  <h1 class="mb-3 text-2xl text-[var(--theme-h1)] font-semibold">
-    <a href={postPath(post.id)}># {post.data.title}</a>
+<article class="post-card group w-full my-3 md:my-4 rounded-xl border border-accent/15 p-5">
+  <h1 class="mb-3 text-2xl text-[var(--theme-h1)] font-semibold text-balance">
+    <a class="transition-colors" href={postPath(post.id)}># {post.data.title}</a>
   </h1>
   <div class="text-[var(--theme-muted)] my-3">
     <time>{dateString(post.data.published)}</time>
@@ -51,7 +51,30 @@ const description = remarkPluginFrontmatter.description || post.data.description
   <div>
     <a class="button flex items-center" href={postPath(post.id)}>
       Read
-      <Icon name="chevrons-right" class="size-5 ml-2" />
+      <Icon name="chevrons-right" class="read-arrow size-5 ml-2 transition-transform" />
     </a>
   </div>
 </article>
+
+<style>
+  .post-card {
+    transition:
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      box-shadow 150ms ease-out;
+  }
+
+  .post-card:hover {
+    border-color: color-mix(in oklab, var(--theme-accent) 30%, transparent);
+    background-color: color-mix(in oklab, var(--theme-accent) 3%, transparent);
+    box-shadow: 0 6px 20px -12px color-mix(in oklab, var(--theme-accent) 50%, transparent);
+  }
+
+  .post-card:hover h1 a {
+    color: var(--theme-accent);
+  }
+
+  .post-card:hover .read-arrow {
+    translate: 2px 0;
+  }
+</style>
