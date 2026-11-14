@@ -58,14 +58,21 @@ if (addendum.length > 0) {
         />
       )
     }
-    <h1 class="mb-3 text-[1.75rem] text-[var(--theme-h1)] font-semibold">
+    <h1 class="post-title mb-3 text-[var(--theme-h1)] font-semibold text-balance">
       # {postData.title}
     </h1>
-    <div class="text-foreground/80 mb-2.5">
+    <div class="text-[var(--theme-muted)] mb-3">
       <time>{dateString(postData.published)}</time>
       {
+        remarkPluginFrontmatter.minutesRead && (
+          <span class="before:content-['·'] before:inline-block before:mx-1.5">
+            {remarkPluginFrontmatter.minutesRead}
+          </span>
+        )
+      }
+      {
         postData.author && (
-          <span class="before:content-['::'] before:inline-block before:mx-0.5">
+          <span class="before:content-['·'] before:inline-block before:mx-1.5">
             {postData.author}
           </span>
         )
@@ -73,9 +80,9 @@ if (addendum.length > 0) {
     </div>
     {
       postData.tags && (
-        <div class="text-accent mb-5 lg:mb-0">
+        <div class="mb-5 flex flex-wrap lg:mb-0">
           {postData.tags.map((tag) => (
-            <a class="underline mr-4 inline-block" href={tagPath(tag)}>
+            <a class="tag-link" href={tagPath(tag)}>
               #{tag}
             </a>
           ))}
@@ -109,3 +116,9 @@ if (addendum.length > 0) {
     )
   }
 </Layout>
+
+<style>
+  .post-title {
+    font-size: clamp(1.6rem, 1.35rem + 1vw, 2rem);
+  }
+</style>

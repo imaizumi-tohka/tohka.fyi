@@ -1,5 +1,19 @@
+---
+interface Props {
+  label?: string
+}
+const { label } = Astro.props
+---
+
 <h1
   class="text-accent text-2xl pb-3 pl-1 mb-4 mt-10 md:mt-14 font-semibold text-balance border-b-4 border-double border-accent/30"
 >
+  {
+    label && (
+      <span class="mb-1 block text-[0.65rem] font-normal uppercase tracking-[0.22em] text-accent/55">
+        {label}
+      </span>
+    )
+  }
   <slot />
 </h1>

@@ -33,10 +33,10 @@ const tagsWithCount = Object.entries(tagCounts)
       <li>
         <a
           href={tagPath(tag)}
-          class="flex gap-2.5 py-2 pl-4 pr-3 bg-[var(--theme-warm)]/15 text-[var(--theme-warm)] rounded-3xl"
+          class="tag-chip group flex items-center gap-2.5 py-2 pl-4 pr-3 bg-[var(--theme-warm)]/15 text-[var(--theme-warm)] rounded-3xl"
         >
           {tag}
-          <span class="rounded-full bg-foreground/7 text-primary px-2 py-1 text-xs font-semibold">
+          <span class="rounded-full bg-foreground/7 px-2 py-0.5 text-xs font-semibold leading-none transition-colors group-hover:bg-background/25 group-hover:text-background">
             {count}
           </span>
         </a>
@@ -44,3 +44,18 @@ const tagsWithCount = Object.entries(tagCounts)
     ))
   }
 </ul>
+
+<style>
+  .tag-chip {
+    transition:
+      background-color 160ms ease-out,
+      color 160ms ease-out,
+      translate 160ms ease-out;
+  }
+
+  .tag-chip:hover {
+    background-color: var(--theme-warm);
+    color: var(--theme-background);
+    translate: 0 -1px;
+  }
+</style>

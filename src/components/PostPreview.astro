@@ -23,14 +23,14 @@ const description = remarkPluginFrontmatter.description || post.data.description
     <time>{dateString(post.data.published)}</time>
     {
       post.data.author && (
-        <span class="before:content-['::'] before:inline-block before:mx-0.5">
+        <span class="before:content-['·'] before:inline-block before:mx-1.5">
           {post.data.author}
         </span>
       )
     }
     {
       minutesRead && (
-        <span class="before:content-['::'] before:inline-block before:mx-0.5">
+        <span class="before:content-['·'] before:inline-block before:mx-1.5">
           {minutesRead}
         </span>
       )
@@ -39,9 +39,9 @@ const description = remarkPluginFrontmatter.description || post.data.description
   {description && <p class="my-4 text-base/7 text-foreground">{description}</p>}
   {
     post.data.tags && (
-      <div class="text-accent mb-6">
+      <div class="mb-5 flex flex-wrap">
         {post.data.tags.map((tag) => (
-          <a class="underline mr-4 inline-block" href={tagPath(tag)}>
+          <a class="tag-link" href={tagPath(tag)}>
             #{tag}
           </a>
         ))}

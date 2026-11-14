@@ -12,7 +12,8 @@ import {
 import { getCollection } from 'astro:content'
 
 export function dateString(date: Date) {
-  return date.toISOString().split('T')[0]
+  // 表示用。ドット区切りにして等幅の数字を活かす
+  return date.toISOString().slice(0, 10).replaceAll('-', '.')
 }
 
 // Netlify は URL パス中の ASCII を小文字に正規化する（/tags/NAS → /tags/nas）ため、

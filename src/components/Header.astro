@@ -15,7 +15,7 @@ const selectTheme =
     <a
       id="logo"
       href="/"
-      class="block px-4 py-1.5 max-w-full no-underline items-center bg-accent text-background font-semibold tracking-[0.02em] rounded-none"
+      class="block px-4 py-1.5 max-w-full no-underline items-center bg-accent text-background font-semibold tracking-[0.02em] rounded-none transition-colors hover:bg-accent/90"
     >
       {siteConfig.title}
     </a>
@@ -26,7 +26,7 @@ const selectTheme =
       <nav id="nav-mobile" aria-label="メニュー" class="p-0 text-accent sm:hidden">
         <button
           id="nav-mobile-button"
-          class="px-3 py-1 h-full cursor-pointer border-2 rounded-none bg-background"
+          class="px-3 py-1 h-full cursor-pointer border-2 rounded-none bg-background transition-colors hover:bg-accent/10"
           type="button"
           aria-expanded="false"
           aria-controls="nav-mobile-list"

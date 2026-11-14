@@ -97,3 +97,24 @@ const { socialLinks } = Astro.props
     )
   }
 </div>
+
+<style>
+  .social-link {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    color: var(--theme-muted);
+    transition:
+      color 150ms ease-out,
+      background-color 150ms ease-out,
+      translate 150ms ease-out;
+  }
+
+  .social-link:hover {
+    color: var(--theme-accent);
+    background-color: color-mix(in oklab, var(--theme-accent) 10%, transparent);
+    translate: 0 -2px;
+  }
+</style>
