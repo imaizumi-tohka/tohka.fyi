@@ -11,14 +11,18 @@ import { Icon } from 'astro-icon/components'
     disabled
   >
     <Icon name="search" class="size-6 text-accent" />
-    <span class="sr-only">Open Search</span>
+    <span class="sr-only">検索を開く</span>
   </button>
   <dialog
-    aria-label="search"
-    class="text-foreground! bg-background max-h-5/6 min-h-48 w-7/8 sm:w-5/6 max-w-xl border-double! border-4 border-accent/30 shadow-sm backdrop:backdrop-blur-sm open:flex mx-auto mt-10 sm:mt-16 mb-auto rounded-xl"
+    aria-label="サイト内検索"
+    class="text-foreground! bg-background relative max-h-5/6 min-h-48 w-7/8 sm:w-5/6 max-w-xl border-double! border-4 border-accent/30 shadow-sm backdrop:backdrop-blur-sm open:flex mx-auto mt-10 sm:mt-16 mb-auto rounded-xl"
   >
-    <div class="dialog-frame flex grow flex-col gap-4 p-6 pt-6 max-w-full">
-      <button class="cursor-pointer fixed top-2 right-2 rounded-full" data-close-modal>
+    <div class="dialog-frame flex grow flex-col gap-4 p-6 pt-12 max-w-full">
+      <button
+        class="cursor-pointer absolute top-3 right-3 rounded-full"
+        aria-label="検索を閉じる"
+        data-close-modal
+      >
         <Icon name="circle-x" class="size-6 text-accent/50" />
       </button>
       {

@@ -153,35 +153,64 @@ const themeSlots = palette?.length
       themeStyles,
     }))
 
+const themeKeys = [
+  'foreground',
+  'background',
+  'accent',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'li',
+  'italic',
+  'a',
+  'hr',
+  'muted',
+  'warm',
+  'blue',
+  'green',
+  'red',
+  'yellow',
+  'magenta',
+  'cyan',
+]
+
+// 背景色の相対輝度から light / dark を判定する（color-scheme 用）
+const isLightColor = (value: unknown): boolean => {
+  if (typeof value !== 'string' || !/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)) return true
+  const hex = value.slice(1)
+  const full =
+    hex.length === 3
+      ? hex
+          .split('')
+          .map((char) => char + char)
+          .join('')
+      : hex
+  const channels = [0, 2, 4].map((offset) => parseInt(full.slice(offset, offset + 2), 16) / 255)
+  const [r, g, b] = channels.map((channel) =>
+    channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
+  )
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.4
+}
+
 let cssLines: string[] = []
+// JS が動かない場合 data-theme は "auto" のままなので、先頭テーマの値で描画できるようにする
+const fallbackStyles = pick(themeSlots[0].themeStyles, themeKeys)
+cssLines.push(':root {')
+for (const [key, value] of Object.entries(fallbackStyles)) {
+  cssLines.push(`--theme-${key}: ${value};`)
+}
+cssLines.push('color-scheme: light;')
+cssLines.push('}')
 for (const { themeId, themeStyles } of themeSlots) {
-  const relevantStyles = pick(themeStyles, [
-    'foreground',
-    'background',
-    'accent',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'li',
-    'italic',
-    'a',
-    'hr',
-    'muted',
-    'warm',
-    'blue',
-    'green',
-    'red',
-    'yellow',
-    'magenta',
-    'cyan',
-  ])
+  const relevantStyles = pick(themeStyles, themeKeys)
   cssLines.push(`:root[data-theme="${themeId}"] {`)
   for (const [key, value] of Object.entries(relevantStyles)) {
     cssLines.push(`--theme-${key}: ${value};`)
   }
+  cssLines.push(`color-scheme: ${isLightColor(relevantStyles.background) ? 'light' : 'dark'};`)
   cssLines.push(`}`)
 }
 let generatedCss: string = cssLines.join('\n')
@@ -199,6 +228,8 @@ let generatedCss: string = cssLines.join('\n')
 >
   <head>
     <meta charset="UTF-8" />
+    <!-- ブラウザ標準UI（スクロールバー・フォーム部品）を配色に追従させる -->
+    <meta name="color-scheme" content="light dark" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="generator" content={Astro.generator} />
     <meta name="title" content={pageTitle} />
